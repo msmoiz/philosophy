@@ -13,5 +13,5 @@ yourself reading this (dear stranger), I encourage you to fork it, shape it to
 your own needs, and draw value from it as well.
 
 > If you think I should change my approach to any or all of the subjects
-enumerated below, please make the case. In mind, as in matter, *pull requests
-are welcome*.
+enumerated below, please make the case. In mind, as in matter, pull requests
+are welcome.
