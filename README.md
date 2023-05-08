@@ -47,3 +47,32 @@ aws dynamodb get-item --return-consumed-capacity [options...]
 
 This pattern is widespread in modern command line tooling (e.g., `docker run`,
 `git commit`, `cargo install`).
+
+## Pre-production environments
+
+**Pre-production environments should depend on production services.** The
+primary purpose of a pre-production environment is to reduce the risk of
+introducing bugs to production. The closer a pre-production environment is to
+the production environment&mdash;sometimes called its fidelity&mdash;the more
+confidence it provides that something that works in the lesser environment will
+work in production. To this end, pre-production tests should run against
+production dependencies, for a few reasons:
+
+* Integration behavior often gets out of sync with production behavior. This
+  reduces environment fidelity.
+* Integration endpoints are often less reliable than their production
+  counterparts and may not have the same support guarantees.
+* Many services do not offer integration endpoints at all. This forces the
+  developer to use production endpoints for some dependencies and integrations
+  for others, which can make it harder to understand the dependency graph for a
+  pre-production environment.
+
+Developers often avoid taking production dependencies in pre-production
+environments for fear of disrupting production operations or cluttering
+production state. These issues can be mitigated using the same techniques
+employed to prevent inappropriate traffic from other clients. For instance, a
+pre-production environment that integrates with Slack can post messages to a
+throwaway Slack channel using a token that only has write permissions on that
+channel and a limited throughput allowance. This environment can test
+interactions with the production Slack service without affecting production
+state or health.
