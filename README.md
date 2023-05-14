@@ -23,6 +23,76 @@ your own needs, and draw value from it as well. If you think I should change my
 approach to any or all of the subjects enumerated below, please make the case.
 In mind, as in matter, pull requests are welcome.
 
+## Code style
+
+**The type of a variable should be inferred when doing so would eliminate
+redundant information.** For instance, in the following example, the type of
+each declared variable is apparent from the expression assigned to it, and the
+type annotation can be omitted. The example also demonstrates how type inference
+can make code more readable by lining up variable declarations instead of
+staggering them based on the length of the declared type.
+
+```java
+// good
+final var input = new InputSource(new StringReader(text));
+final var documentFactory = DocumentBuilderFactory.newInstance();
+final var documentBuilder = documentFactory.newDocumentBuilder();
+final var document = documentBuilder.parse(input);
+final var root = document.getDocumentElement();
+
+// bad
+final InputSource input = new InputSource(new StringReader(text));
+final DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
+final DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
+final Document document = documentBuilder.parse(input);
+final Element root = document.getDocumentElement();
+```
+
+Explicit type annotations are typically required at logical boundaries such as
+function definitions and class member declarations, so there are limited
+opportunities for type inference to go wrong.
+
+```rust
+struct Point {
+  x: i32,
+  y: i32
+}
+
+fn transform(point: Point) {
+  // x must be an &i32 because of the explicit
+  // annotations on point and Point::x
+  let x = &point.x; 
+}
+```
+
+In addition, type inference makes poorly named functions stand out, as in the
+following example. If the return type is not obvious from the function name,
+there is a fair chance that a better name exists.
+
+```rust
+let open = store_is_open(); // good
+let open = check_store_status(); // bad 
+```
+
+There are situations where explicit type annotations are appropriate, such as
+when declaring an uninitialized variable or when the desired type is different
+from the inferred type. When type inference is the default, an explicit type
+annotation is a signal to the reader that the specified type is important for
+the code that follows.
+
+```java
+final var composite = new Composite(); // inferred to Composite
+final Widget composite = new Composite(); // narrowed to Widget
+```
+
+Most modern languages&mdash;Rust, Go, TypeScript, Kotlin, Scala&mdash;treat type
+inference as the default for local variable declarations, and older languages
+like
+[C++](http://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#es11-use-auto-to-avoid-redundant-repetition-of-type-names)
+and
+[Python](https://mypy.readthedocs.io/en/stable/type_inference_and_annotations.html)
+are converging toward this standard as well.
+
 ## Command line interfaces
 
 **Disparate actions should be expressed as subcommands instead of as flags.**
