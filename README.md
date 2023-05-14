@@ -76,3 +76,57 @@ throwaway Slack channel using a token that only has write permissions on that
 channel and a limited throughput allowance. This environment can test
 interactions with the production Slack service without affecting production
 state or health.
+
+## Application programming interfaces
+
+**Application programming interfaces ("APIs") should only use HTTP as a
+transport protocol.** HTTP is advertised as an application layer protocol, but
+in practice it is a poor tool for modeling application logic, for a number of
+reasons:
+
+* *The protocol blurs the line between message transmission and substance.* It
+  offers methods (e.g., `CONNECT`, `OPTIONS`, and `TRACE`), status codes (e.g.,
+  `3xx`, `502`, `504`), and headers (e.g., `Connection`, `Forwarded`,
+  `Access-Control-Allow-Origin`) that address routing, redirection, proxy
+  servers, cross-origin access, and other matters that have no bearing on
+  application logic.
+* *The protocol was not designed for service-to-service communication.* It was
+  initially designed to make it easy to request, serve, and render arbitrary
+  content in the context of a browser, and that legacy continues to play a
+  significant role in the features it provides. For instance, the `Content-Type:
+  application/json` header helps a browser render a response from an arbitrary
+  server in a reasonable manner. The same header means little for most backend
+  applications, which support exactly one serialization format (typically JSON),
+  and their clients, which are written to work with a single format.
+* *The protocol is ambiguous with respect to application logic.* Over the years,
+  different parties have layered different (often conflicting) semantics on the
+  behavior and interpretation of urls, methods, status codes, headers, query
+  strings, and bodies, such that the current state of affairs is one of complete
+  disarray. Basic questions like the meaning of a `404` status code (does it
+  mean that the endpoint is not supported or that the object at the endpoint
+  does not exist) remain the subject of debate. The REST approach, perhaps the
+  most popular semantic interpretation of HTTP, is afflicted by the same
+  ambiguity. There is no consensus on what it means to be RESTful, and discourse
+  frequently devolves into theories about "what Fielding meant" and the promise
+  of HATEOS (which has yet to materialize outside the browser). There is limited
+  value in adhering to a standard that no one agrees on.
+* *The protocol lacks the granularity needed for application logic.* For
+  instance, it forces the developer to map every write operation onto one of
+  three generic verbs&mdash;`POST`, `PUT`, or `PATCH`; this a step backwards in
+  terms of expressive power when compared to the naming flexibility afforded to
+  the same operations executed in-memory (compare `PATCH /pause` to
+  `pause_application()`). This is also a limiting factor when it comes to error
+  handling. For instance, the `400` status code indicates a bad request, but it
+  says nothing about what made the request bad (e.g., malformed JSON, a missing
+  field). In such cases, which are common, one standard workaround is to put a
+  more fine-grained error code in the response body. However, at that point, the
+  status code is redundant, which prompts one to question whether it should be
+  included at all.
+
+In light of the foregoing, HTTP should be used for transmitting messages from
+one place to another and no more. Application logic should be modeled using
+domain-specific request and response bodies. This allows both clients and
+servers to find all of the information needed to make business decisions in one
+place and ensures that the information is narrowly tailored to the requirements
+of the domain. This pattern can be found in the wild, in services like AWS and
+Slack. Services based on gRPC follow this pattern as well.
