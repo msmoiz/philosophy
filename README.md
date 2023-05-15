@@ -246,6 +246,25 @@ context in the form of dialogue and associated media. Linking to the tracking
 issue in a commit message allows the reader to see the ongoing justification for
 the change alongside its original motivation.
 
+## Code review
+
+**A code change should be reviewed and approved before being deployed.**
+
+There is often pressure to move on to the next thing once code has been
+deployed, and code improvements that are slated for the future fall to the
+wayside in the face of more exigent concerns. In other words, it is reasonable
+to expect that code will not change after it has been deployed. Thus, it is
+important to get code right on the first pass; code review facilitates this
+goal.
+
+**A code change should be reviewed within one business day of publication.**
+
+The sooner a developer receives feedback regarding a code change, the more
+likely it is that they will be able to recall the original development context
+and provide meaningful responses to the feedback. In addition, when a code
+change lingers, a developer may be forced to pick up other tasks in the interim,
+which results in more context-switching and hinders productivity.
+
 ## Package documentation
 
 **Each package should contain a README in its root directory.**
