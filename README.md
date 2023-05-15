@@ -25,6 +25,33 @@ In mind, as in matter, pull requests are welcome.
 
 ## Code style
 
+**Code should be drafted according to a consistent set of rules.** These rules
+should be determined from the following sources in order of priority: language,
+framework, team, and personal. Code without a style guide is subject to constant
+change as developers take turns hacking at it in different ways based on their
+level of experience, familiarity with a language, and personal preferences. This
+forces the reader to throw away reasonable assumptions about the structure and
+behavior of the code across files or packages and in turn makes the process of
+reading code much slower. This approach slows down code reviews as well as
+developers re-litigate the same issues over and over, often accruing
+inconsistent conclusions over time. This approach also squanders the “wisdom of
+the crowd,” which has been accumulated and battle-tested over the course of
+decades in some cases, in favor of bespoke solutions to solved problems.
+
+**Style rules should be enforceable across heterogeneous development
+environments.** This often means committing rules to code. Style rules that
+cannot be enforced across development environments will not be enforced. It is
+common to rely on editors or IDEs to provide style guidance but depending on
+this sort of integration as the sole enforcer forces developers to use a
+specific toolset without an apparent benefit or alternatively accepts that style
+may not be adhered to when developers use different tools. For instance,
+developers using Visual Studio Code can use the Prettier plugin to format
+JavaScript code in a Node.js package, but developers using another editor might
+not have access to an analogous integration. Instead, the package should include
+the Prettier module as a development dependency, and the formatter should be run
+as part of the build process. This leads to consistent output across development
+environments.
+
 **The type of a variable should be inferred when doing so would eliminate
 redundant information.** For instance, in the following example, the type of
 each declared variable is apparent from the expression assigned to it, and the
