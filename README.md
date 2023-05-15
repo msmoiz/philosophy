@@ -353,6 +353,43 @@ and provide meaningful responses to the feedback. In addition, when a code
 change lingers, a developer may be forced to pick up other tasks in the interim,
 which results in more context-switching and hinders productivity.
 
+## Continuous deployment
+
+**Code changes should be deployed within one business day of approval.**
+
+The longer the gap between the approval and deployment, the more chance there is
+that an intervening change will cause the code to break. Code is written and
+reviewed against a set of assumptions about what already exists in the
+deployment environment, and those assumptions become progressively less sound as
+the deployment gap widens. In addition, a longer deploy gap increases the chance
+that an intervening change will be merged, potentially prompting a rebase and in
+turn additional code review.
+
+**Code changes should be deployed through a pipeline.**
+
+Manual deployment consumes developer attention and bandwidth. A pipeline takes
+over this task and empowers developers to focus on building features instead of
+worrying about how those features are ultimately delivered to customers. A
+pipeline also allows the team to enforce standards before code reaches
+production, e.g., code review approval and integration test success.
+
+**Pipelines should contain at least one pre-production stage.**
+
+A pre-production stage&mdash;alpha, beta, gamma, test, staging&mdash;provides an
+opportunity to run integration tests and other verification of code changes
+before those changes make it to production.
+
+**There should be a separate mechanism to deploy code to a sandbox environment.**
+
+It is not always possible to test specific behavior using local resources;
+instead, it may be necessary to test against deployed resources. In the absence
+of a sandbox environment, developers are forced to deploy changes to a pipeline
+stage to see how they behave; this can disrupt the pipeline mechanism,
+potentially blocking other changes from being deployed to production. A sandbox
+environment allows developers to test such changes in a safe manner and also
+reduces iteration time as variations can be deployed without waiting on code
+review or pipeline promotions.
+
 ## Package documentation
 
 **Each package should contain a README in its root directory.**
