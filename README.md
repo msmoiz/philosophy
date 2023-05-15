@@ -156,6 +156,63 @@ of Python, where small deviations in whitespace can change the behavior of the
 code. It is also opinionated, with limited options for configuration, and thus
 reduces the need for repeated discussion around configuration.
 
+## Testing
+
+### Unit tests
+
+**Unit tests should be run as part of the build process.**
+
+There is a natural tendency for developers to take the path of least resistance
+in order to solve a problem. The more friction there is with respect to running
+tests, the more likely it is that those tests will not be run. Running tests as
+part of the build process obviates the decision for the developer. This practice
+is already folded into some build systems such as Maven, which will run tests
+before packaging, though it requires manual setup with others such as npm.
+
+**Unit test names should describe inputs, outputs, and expected behavior.**
+
+This format makes clear which inputs and outputs are being tested for each
+function. This is also easier to understand at a glance than the full test
+implementation. This format also makes it easier to identify gaps in testing
+based on the behaviors that are enumerated.
+
+**Unit tests should succeed independent of the environment.**
+
+Unit tests are meant to test individual units of code independent of the
+environment in which they execute. This is distinct from integration tests which
+are used to see how the units work together in a specific environment. In
+practice, this means that unit tests should be limited to testing things that
+are in-process, i.e., in memory. Behavior that depends on out-process resources
+such as environment variables, filesystems, databases, and networks should be
+reserved for integration testing or mocked for unit tests.
+
+**Unit tests should succeed independent of the result of other unit tests.**
+
+This makes it possible for test runners to run tests in parallel, speeding up
+iteration time. It also makes tests easier to understand, as all inputs to a
+given test are apparent on its face.
+
+**Unit tests should be deterministic.**
+
+Units tests should return the same result for the same input on each run
+assuming no changes in between runs. Brittle tests that succeed only part of the
+time reduce confidence in the test suite, increase package onboarding friction,
+and increase the likelihood that tests will be skipped.
+
+**Unit tests should contain the least amount of code necessary to pass.**
+
+It is more difficult to reason about a test that includes more information than
+is required to pass the test such as extra properties or non-zero values that
+are not under test. Minimal tests are also more resilient to future changes as
+there is less surface area that might be affected by a change.
+
+**Unit tests should avoid logical conditions such as if, while, for, and
+switch.**
+
+A unit test should cover only a single logical branch of behavior. This makes
+the tests more straightforward to write and also makes the error conditions
+easier to isolate in case of failure.
+
 ## Version control
 
 ### Branch management
