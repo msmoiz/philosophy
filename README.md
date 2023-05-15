@@ -125,6 +125,37 @@ and
 [Python](https://mypy.readthedocs.io/en/stable/type_inference_and_annotations.html)
 are converging toward this standard as well.
 
+### Code formatting
+
+**Code should be formatted according to a consistent set of rules.**
+
+This includes source code as well as tests, configuration files, READMEs, and
+all other content that is susceptible to formatting. Developers often have
+strong personal preferences about how something should be formatted, and a lack
+of standardization opens the door to wasted time and effort discussing
+formatting concerns during code review. In addition, poorly formatted code
+(e.g., long lines, crowded statements) can make the code harder to read and
+understand.
+
+**JavaScript, TypeScript, HTML, React, and JSON code should be formatted
+according to the Prettier rules.**
+
+Prettier acts as an all-in-one formatter for these web languages which obviates
+the need to configure multiple formatters for a single frontend application. It
+also supports shared configuration files which makes it possible to define
+configuration once and use it everywhere. It is opinionated and has a philosophy
+that discourages options in favor of uniformity. Not everyone will agree with
+all of the formatting decisions that Prettier makes, but the lack of options
+reduces the chance that the style will be re-litigated every cycle.
+
+**Python code should be formatted according to the Black rules.**
+
+Black is safe insofar as it confirms that the source abstract syntax tree
+matches before and after formatting. This is especially material in the context
+of Python, where small deviations in whitespace can change the behavior of the
+code. It is also opinionated, with limited options for configuration, and thus
+reduces the need for repeated discussion around configuration.
+
 ## Version control
 
 ### Branch management
