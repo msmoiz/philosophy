@@ -25,39 +25,44 @@ In mind, as in matter, pull requests are welcome.
 
 ## Code style
 
-**Code should be drafted according to a consistent set of rules.** These rules
-should be determined from the following sources in order of priority: language,
-framework, team, and personal. Code without a style guide is subject to constant
-change as developers take turns hacking at it in different ways based on their
-level of experience, familiarity with a language, and personal preferences. This
-forces the reader to throw away reasonable assumptions about the structure and
-behavior of the code across files or packages and in turn makes the process of
-reading code much slower. This approach slows down code reviews as well as
-developers re-litigate the same issues over and over, often accruing
-inconsistent conclusions over time. This approach also squanders the “wisdom of
-the crowd,” which has been accumulated and battle-tested over the course of
-decades in some cases, in favor of bespoke solutions to solved problems.
+**Code should be drafted according to a consistent set of rules.**
+
+These rules should be determined from the following sources in order of
+priority: language, framework, team, and personal. Code without a style guide is
+subject to constant change as developers take turns hacking at it in different
+ways based on their level of experience, familiarity with a language, and
+personal preferences. This forces the reader to throw away reasonable
+assumptions about the structure and behavior of the code across files or
+packages and in turn makes the process of reading code much slower. This
+approach slows down code reviews as well as developers re-litigate the same
+issues over and over, often accruing inconsistent conclusions over time. This
+approach also squanders the “wisdom of the crowd,” which has been accumulated
+and battle-tested over the course of decades in some cases, in favor of bespoke
+solutions to solved problems.
 
 **Style rules should be enforceable across heterogeneous development
-environments.** This often means committing rules to code. Style rules that
-cannot be enforced across development environments will not be enforced. It is
-common to rely on editors or IDEs to provide style guidance but depending on
-this sort of integration as the sole enforcer forces developers to use a
-specific toolset without an apparent benefit or alternatively accepts that style
-may not be adhered to when developers use different tools. For instance,
-developers using Visual Studio Code can use the Prettier plugin to format
-JavaScript code in a Node.js package, but developers using another editor might
-not have access to an analogous integration. Instead, the package should include
-the Prettier module as a development dependency, and the formatter should be run
-as part of the build process. This leads to consistent output across development
-environments.
+environments.**
+
+This often means committing rules to code. Style rules that cannot be enforced
+across development environments will not be enforced. It is common to rely on
+editors or IDEs to provide style guidance but depending on this sort of
+integration as the sole enforcer forces developers to use a specific toolset
+without an apparent benefit or alternatively accepts that style may not be
+adhered to when developers use different tools. For instance, developers using
+Visual Studio Code can use the Prettier plugin to format JavaScript code in a
+Node.js package, but developers using another editor might not have access to an
+analogous integration. Instead, the package should include the Prettier module
+as a development dependency, and the formatter should be run as part of the
+build process. This leads to consistent output across development environments.
 
 **The type of a variable should be inferred when doing so would eliminate
-redundant information.** For instance, in the following example, the type of
-each declared variable is apparent from the expression assigned to it, and the
-type annotation can be omitted. The example also demonstrates how type inference
-can make code more readable by lining up variable declarations instead of
-staggering them based on the length of the declared type.
+redundant information.**
+
+For instance, in the following example, the type of each declared variable is
+apparent from the expression assigned to it, and the type annotation can be
+omitted. The example also demonstrates how type inference can make code more
+readable by lining up variable declarations instead of staggering them based on
+the length of the declared type.
 
 ```java
 // good
@@ -125,12 +130,14 @@ are converging toward this standard as well.
 ### Branch management
 
 **Code that is deployed to production should exist on a single branch.**
+
 Depending on the setting, this branch might be called `main`, `mainline`, or
 `master`, but there should be only one. Sticking to a standard branch name
 reduces the time needed to discover production code and also makes it easier to
 write tooling that depends on knowing the default branch of a package.
 
 **Code in feature branches should be merged directly into the main branch.**
+
 This approach is sometimes referred to as [trunk-based
 development](https://www.atlassian.com/continuous-delivery/continuous-integration/trunk-based-development)
 or [GitHub
@@ -141,34 +148,39 @@ intermediary branches like `dev` and `release-candidate` as proposed in
 alternate approaches such as
 [GitFlow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow).
 
-**Branches that have been merged into the main branch should be deleted.** The
-longer a branch is left around, the more difficult it becomes to determine if
-the branch is needed. This determination is easiest to make when a branch is
+**Branches that have been merged into the main branch should be deleted.**
+
+The longer a branch is left around, the more difficult it becomes to determine
+if the branch is needed. This determination is easiest to make when a branch is
 merged into the main branch; at this point, the branch is no longer necessary.
 Dead branches increase the clutter in a package and in turn increase the time
 required to find relevant code.
 
 ### Commit management
 
-**Each published commit should be atomic.** Commits that focus on a single task
-are easier to understand than commits that cover multiple tasks. Atomic commits
-also provide more precision when rolling back. In addition, atomic commits help
-readers narrow the range of relevant commits when searching for bugs. In
-practice, a good rule of thumb is that if the commit body contains a statement
-that is not reasonably related to the commit subject line, the commit should be
-split up further.
+**Each published commit should be atomic.**
 
-**Each published commit should be stable.** This means that every commit should
-build and pass tests. Once published, it is reasonable to expect that a
-developer may need to jump back to an arbitrary revision in the history at some
-point, either to study or to revert to that revision. If the project no longer
-builds or passes tests at that revision, the developer is forced to solve two
-problems (figure out how to build and the original issue) instead of one problem
-(the original issue). This standard accelerates development velocity as well,
-allowing developers to make quick deployments with the confidence that earlier
-revisions are safe to revert to at need.
+Commits that focus on a single task are easier to understand than commits that
+cover multiple tasks. Atomic commits also provide more precision when rolling
+back. In addition, atomic commits help readers narrow the range of relevant
+commits when searching for bugs. In practice, a good rule of thumb is that if
+the commit body contains a statement that is not reasonably related to the
+commit subject line, the commit should be split up further.
+
+**Each published commit should be stable.**
+
+This means that every commit should build and pass tests. Once published, it is
+reasonable to expect that a developer may need to jump back to an arbitrary
+revision in the history at some point, either to study or to revert to that
+revision. If the project no longer builds or passes tests at that revision, the
+developer is forced to solve two problems (figure out how to build and the
+original issue) instead of one problem (the original issue). This standard
+accelerates development velocity as well, allowing developers to make quick
+deployments with the confidence that earlier revisions are safe to revert to at
+need.
 
 **The subject line for a commit should be written using the imperative mood.**
+
 Each commit represents some transformation on the code that came before it,
 i.e., a delta or a diff to be applied, and using the imperative mood matches
 this understanding. The imperative mood also maps cleanly onto tracking issues,
@@ -186,6 +198,7 @@ feat: added red button # bad
 [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) standard
 and as supplemented by the [Angular
 convention](https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#type).**
+
 Thinking in terms of commit types (fix, feat, docs, style, etc.) helps a
 developer push for atomic commits and break up work into logical units. To the
 extent that semantic versioning is used for a package, this convention makes it
@@ -196,6 +209,7 @@ of “add,” “introduce,” or “implement”). Further, this convention is 
 and imposes no adoption or abandonment cost.
 
 **The subject line for a commit should not be longer than 50 characters.**
+
 Shorter subject lines are more readable. This soft limit also forces a developer
 to think through the most concise way to explain the commit. In addition, this
 provides a developer another opportunity to push for atomic commits; if a commit
@@ -203,34 +217,39 @@ is not amenable to a short subject line, it may be a sign that the commit should
 be split up further. Further, commit messages should be readable from the
 command line, and Git does not wrap commit messages automatically.
 
-**The body for a commit should wrap lines at 72 characters.** Commit messages
-should be readable from the command line, and Git does not wrap commit messages
-automatically. Lines that extend beyond this limit force the reader to use code
-editors or other graphical tools to make sense of commit messages.
+**The body for a commit should wrap lines at 72 characters.**
+
+Commit messages should be readable from the command line, and Git does not wrap
+commit messages automatically. Lines that extend beyond this limit force the
+reader to use code editors or other graphical tools to make sense of commit
+messages.
 
 **The body for a commit should focus on the nature and purpose of a commit
-rather than its implementation.** The implementation of a change is apparent
-from the code itself, but the intention of the change is not. For instance,
-consider a change that makes a button blue instead of red. This change is
-apparent on the face of the code, but it is not obvious that the change was made
-because customers were more likely to click the blue button than the red one.
-This context helps the reader understand how the code came to be in its present
-state and also helps them determine whether the assumptions that underlie the
-present state still hold (e.g., red buttons are back in vogue). Exposition on
-the nature of the commit is also useful to point out a whole that may not be
-apparent from its parts.
+rather than its implementation.**
+
+The implementation of a change is apparent from the code itself, but the
+intention of the change is not. For instance, consider a change that makes a
+button blue instead of red. This change is apparent on the face of the code, but
+it is not obvious that the change was made because customers were more likely to
+click the blue button than the red one. This context helps the reader understand
+how the code came to be in its present state and also helps them determine
+whether the assumptions that underlie the present state still hold (e.g., red
+buttons are back in vogue). Exposition on the nature of the commit is also
+useful to point out a whole that may not be apparent from its parts.
 
 **The footer for a commit should include a link to the tracking issue that
-relates to that commit, if applicable.** A commit message is fixed in time. It
-is also unilateral in that it is written by one person. Issue tracking software
-is better situated to provide dynamic context in the form of dialogue and
-associated media. Linking to the tracking issue in a commit message allows the
-reader to see the ongoing justification for the change alongside its original
-motivation.
+relates to that commit, if applicable.**
+
+A commit message is fixed in time. It is also unilateral in that it is written
+by one person. Issue tracking software is better situated to provide dynamic
+context in the form of dialogue and associated media. Linking to the tracking
+issue in a commit message allows the reader to see the ongoing justification for
+the change alongside its original motivation.
 
 ## Command line interfaces
 
 **Disparate actions should be expressed as subcommands instead of as flags.**
+
 The pattern of using flags for everything makes sense for true UNIX-style
 utilities which do one and only one thing. However, modern command line
 utilities often do many things at once in a common domain, and using flags to
@@ -255,8 +274,9 @@ This pattern is widespread in modern command line tooling (e.g., `docker run`,
 
 ## Pre-production environments
 
-**Pre-production environments should depend on production services.** The
-primary purpose of a pre-production environment is to reduce the risk of
+**Pre-production environments should depend on production services.**
+
+The primary purpose of a pre-production environment is to reduce the risk of
 introducing bugs to production. The closer a pre-production environment is to
 the production environment&mdash;sometimes called its fidelity&mdash;the more
 confidence it provides that something that works in the lesser environment will
@@ -285,9 +305,10 @@ state or health.
 ## Application programming interfaces
 
 **Application programming interfaces ("APIs") should only use HTTP as a
-transport protocol.** HTTP is advertised as an application layer protocol, but
-in practice it is a poor tool for modeling application logic, for a number of
-reasons:
+transport protocol.**
+
+HTTP is advertised as an application layer protocol, but in practice it is a
+poor tool for modeling application logic, for a number of reasons:
 
 * *The protocol blurs the line between message transmission and substance.* It
   offers methods (e.g., `CONNECT`, `OPTIONS`, and `TRACE`), status codes (e.g.,
