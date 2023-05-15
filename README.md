@@ -244,6 +244,20 @@ merged into the main branch; at this point, the branch is no longer necessary.
 Dead branches increase the clutter in a package and in turn increase the time
 required to find relevant code.
 
+### Ignored files
+
+**The *.gitignore* file for a repository should only be used to exclude files
+and directories specific to that repository.**
+
+This includes local dependency caches like *node_modules* and build artifacts
+like *target*, *build*, and *cdk.out*. Files that should be ignored for all
+repositories, such as those created by particular editors (*.vscode*, *.idea*),
+operating systems (*.DS_Store*), or command line utilities (*mutagen.yml*),
+should be excluded through a global *.gitignore* file instead. This spares the
+developer the effort of repeating common ignore clauses for each new repository.
+It also makes for more focused repository-specific ignore files, which otherwise
+might be polluted with ignore clauses tied to specific developer setups.
+
 ### Commit management
 
 **Published commits should be atomic.**
