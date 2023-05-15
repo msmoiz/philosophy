@@ -246,7 +246,7 @@ required to find relevant code.
 
 ### Commit management
 
-**Each published commit should be atomic.**
+**Published commits should be atomic.**
 
 Commits that focus on a single task are easier to understand than commits that
 cover multiple tasks. Atomic commits also provide more precision when rolling
@@ -255,7 +255,7 @@ commits when searching for bugs. In practice, a good rule of thumb is that if
 the commit body contains a statement that is not reasonably related to the
 commit subject line, the commit should be split up further.
 
-**Each published commit should be stable.**
+**Published commits should be stable.**
 
 This means that every commit should build and pass tests. Once published, it is
 reasonable to expect that a developer may need to jump back to an arbitrary
@@ -401,8 +401,8 @@ the package because of its proximity to the code that it covers. There is also
 strong tooling support for this file; for instance, GitHub displays this file
 automatically on the splash page for a given package.
 
-**The README for each package should contain an overview section that explains
-the purpose and contents of the package.**
+**The README for a package should contain an overview section that explains the
+purpose and contents of the package.**
 
 There is a limit to how much information can be conveyed in a package name, and
 developers often need to sift through several packages to find the right one.
@@ -413,7 +413,7 @@ frameworks, languages, and toolchains that may or may not be familiar. The
 overview section of a README short-circuits this process, making it easier for
 developers to determine whether to read further into the package or move on.
 
-**The README for each package should contain a tooling section that explains the
+**The README for a package should contain a tooling section that explains the
 tooling needed to develop in the package.**
 
 Developer environments can differ in subtle ways from each other and from
@@ -430,7 +430,7 @@ stand out as a candidate for upgrade since that version is marked as
 end-of-life. In the absence of this indication, a reader may assume based just
 on the code that it is used with a newer version of Python.
 
-**The README for each package should contain a build section that explains the
+**The README for a package should contain a build section that explains the
 steps needed to build the package.**
 
 The commands (and prerequisites) needed to build a package vary widely across
@@ -438,8 +438,8 @@ tools, frameworks, and languages. This is further complicated when working with
 internal build systems that may not be familiar to developers used to idiomatic
 open-source build systems.
 
-**The README for each package should contain a test section that explains the
-steps needed to test the package.**
+**The README for a package should contain a test section that explains the steps
+needed to test the package.**
 
 If test coverage is supported, the section should also explain how to generate
 and review test coverage. Successfully being able to run tests in a new package
@@ -449,8 +449,8 @@ existing functionality. The harder it is to run tests, the more likely it is
 that developers will simply skip this phase and test manually or test on deploy
 (i.e., trial by fire).
 
-**The README for each package should contain a run section that explains the
-steps needed to run the package.**
+**The README for a package should contain a run section that explains the steps
+needed to run the package.**
 
 In conjunction with tests, the ability to run code locally can materially reduce
 iteration time. This is also essential for testing behavior that must be tested
