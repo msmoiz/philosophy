@@ -93,6 +93,114 @@ and
 [Python](https://mypy.readthedocs.io/en/stable/type_inference_and_annotations.html)
 are converging toward this standard as well.
 
+## Version control
+
+### Branch management
+
+**Code that is deployed to production should exist on a single branch.**
+Depending on the setting, this branch might be called `main`, `mainline`, or
+`master`, but there should be only one. Sticking to a standard branch name
+reduces the time needed to discover production code and also makes it easier to
+write tooling that depends on knowing the default branch of a package.
+
+**Code in feature branches should be merged directly into the main branch.**
+This approach is sometimes referred to as [trunk-based
+development](https://www.atlassian.com/continuous-delivery/continuous-integration/trunk-based-development)
+or [GitHub
+Flow](https://www.atlassian.com/continuous-delivery/continuous-integration/trunk-based-development).
+It fits well with the continuous delivery model in which code is deployed as
+soon as it is merged. It also reduces the mental overhead of managing multiple
+intermediary branches like `dev` and `release-candidate` as proposed in
+alternate approaches such as
+[GitFlow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow).
+
+**Branches that have been merged into the main branch should be deleted.** The
+longer a branch is left around, the more difficult it becomes to determine if
+the branch is needed. This determination is easiest to make when a branch is
+merged into the main branch; at this point, the branch is no longer necessary.
+Dead branches increase the clutter in a package and in turn increase the time
+required to find relevant code.
+
+### Commit management
+
+**Each published commit should be atomic.** Commits that focus on a single task
+are easier to understand than commits that cover multiple tasks. Atomic commits
+also provide more precision when rolling back. In addition, atomic commits help
+readers narrow the range of relevant commits when searching for bugs. In
+practice, a good rule of thumb is that if the commit body contains a statement
+that is not reasonably related to the commit subject line, the commit should be
+split up further.
+
+**Each published commit should be stable.** This means that every commit should
+build and pass tests. Once published, it is reasonable to expect that a
+developer may need to jump back to an arbitrary revision in the history at some
+point, either to study or to revert to that revision. If the project no longer
+builds or passes tests at that revision, the developer is forced to solve two
+problems (figure out how to build and the original issue) instead of one problem
+(the original issue). This standard accelerates development velocity as well,
+allowing developers to make quick deployments with the confidence that earlier
+revisions are safe to revert to at need.
+
+**The subject line for a commit should be written using the imperative mood.**
+Each commit represents some transformation on the code that came before it,
+i.e., a delta or a diff to be applied, and using the imperative mood matches
+this understanding. The imperative mood also maps cleanly onto tracking issues,
+as issues are likely to be written in the imperative as well; for instance, it
+is more likely to see an issue called “fix bug” than one called “fixed bug.”
+Further, Git defaults to the imperative for commits that it generates, i.e.,
+“merge” instead of “merged" and "rebase" instead of "rebased."
+
+```shell
+feat: add red button # good
+feat: added red button # bad
+```
+
+**The subject line for a commit should include a type as specified by the
+[Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) standard
+and as supplemented by the [Angular
+convention](https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#type).**
+Thinking in terms of commit types (fix, feat, docs, style, etc.) helps a
+developer push for atomic commits and break up work into logical units. To the
+extent that semantic versioning is used for a package, this convention makes it
+easier to determine the appropriate version bump for a given change. This
+convention also makes it easier for developers to sift through commit history
+using a consistent vocabulary for the same type of change (e.g., “feat” instead
+of “add,” “introduce,” or “implement”). Further, this convention is lightweight
+and imposes no adoption or abandonment cost.
+
+**The subject line for a commit should not be longer than 50 characters.**
+Shorter subject lines are more readable. This soft limit also forces a developer
+to think through the most concise way to explain the commit. In addition, this
+provides a developer another opportunity to push for atomic commits; if a commit
+is not amenable to a short subject line, it may be a sign that the commit should
+be split up further. Further, commit messages should be readable from the
+command line, and Git does not wrap commit messages automatically.
+
+**The body for a commit should wrap lines at 72 characters.** Commit messages
+should be readable from the command line, and Git does not wrap commit messages
+automatically. Lines that extend beyond this limit force the reader to use code
+editors or other graphical tools to make sense of commit messages.
+
+**The body for a commit should focus on the nature and purpose of a commit
+rather than its implementation.** The implementation of a change is apparent
+from the code itself, but the intention of the change is not. For instance,
+consider a change that makes a button blue instead of red. This change is
+apparent on the face of the code, but it is not obvious that the change was made
+because customers were more likely to click the blue button than the red one.
+This context helps the reader understand how the code came to be in its present
+state and also helps them determine whether the assumptions that underlie the
+present state still hold (e.g., red buttons are back in vogue). Exposition on
+the nature of the commit is also useful to point out a whole that may not be
+apparent from its parts.
+
+**The footer for a commit should include a link to the tracking issue that
+relates to that commit, if applicable.** A commit message is fixed in time. It
+is also unilateral in that it is written by one person. Issue tracking software
+is better situated to provide dynamic context in the form of dialogue and
+associated media. Linking to the tracking issue in a commit message allows the
+reader to see the ongoing justification for the change alongside its original
+motivation.
+
 ## Command line interfaces
 
 **Disparate actions should be expressed as subcommands instead of as flags.**
