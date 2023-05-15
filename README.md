@@ -246,6 +246,75 @@ context in the form of dialogue and associated media. Linking to the tracking
 issue in a commit message allows the reader to see the ongoing justification for
 the change alongside its original motivation.
 
+## Package documentation
+
+**Each package should contain a README in its root directory.**
+
+The README serves as the entry point for each package and provides the best
+venue to document the purpose, composition, and development requirements for a
+package. This is the documentation that is most likely to evolve in step with
+the package because of its proximity to the code that it covers. There is also
+strong tooling support for this file; for instance, GitHub displays this file
+automatically on the splash page for a given package.
+
+**The README for each package should contain an overview section that explains
+the purpose and contents of the package.**
+
+There is a limit to how much information can be conveyed in a package name, and
+developers often need to sift through several packages to find the right one.
+This task becomes much more time-consuming when the purpose of a package is not
+apparent on its face. In these situations, developers must work backwards from
+the source code to determine the purpose of a package, often across a number of
+frameworks, languages, and toolchains that may or may not be familiar. The
+overview section of a README short-circuits this process, making it easier for
+developers to determine whether to read further into the package or move on.
+
+**The README for each package should contain a tooling section that explains the
+tooling needed to develop in the package.**
+
+Developer environments can differ in subtle ways from each other and from
+production environments, and the tooling that a package may work with is not
+necessarily the same as the tooling it is intended to work with. Pinning a
+package to a specific set of tools and versions reduces the time needed to be
+productive in that package and sidesteps headaches caused by environmental
+inconsistencies. For instance, the significance of some files like
+*package.json* or *pom.xml* may be obvious to developers with experience using
+the related tools (npm and Maven, respectively) but not for those that are
+unfamiliar. Similarly, it makes it easier to identify packages that are
+outdated. For example, a package that advertises itself as using Python 3.6 will
+stand out as a candidate for upgrade since that version is marked as
+end-of-life. In the absence of this indication, a reader may assume based just
+on the code that it is used with a newer version of Python.
+
+**The README for each package should contain a build section that explains the
+steps needed to build the package.**
+
+The commands (and prerequisites) needed to build a package vary widely across
+tools, frameworks, and languages. This is further complicated when working with
+internal build systems that may not be familiar to developers used to idiomatic
+open-source build systems.
+
+**The README for each package should contain a test section that explains the
+steps needed to test the package.**
+
+If test coverage is supported, the section should also explain how to generate
+and review test coverage. Successfully being able to run tests in a new package
+often serves as a baseline to determine that the current state of a package is
+stable and further serves to confirm that changes to a package do not break
+existing functionality. The harder it is to run tests, the more likely it is
+that developers will simply skip this phase and test manually or test on deploy
+(i.e., trial by fire).
+
+**The README for each package should contain a run section that explains the
+steps needed to run the package.**
+
+In conjunction with tests, the ability to run code locally can materially reduce
+iteration time. This is also essential for testing behavior that must be tested
+manually, either because there are no automated tests for that behavior yet or
+because such automation is impossible or impracticable. It is also sometimes
+necessary to support local development needs for other packages (i.e., testing
+local frontend changes against local backend changes).
+
 ## Command line interfaces
 
 **Disparate actions should be expressed as subcommands instead of as flags.**
