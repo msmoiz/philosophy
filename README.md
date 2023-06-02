@@ -125,6 +125,42 @@ and
 [Python](https://mypy.readthedocs.io/en/stable/type_inference_and_annotations.html)
 are converging toward this standard as well.
 
+**Boolean conditions should be expressed in the subject-predicate form.**
+
+Most languages follow this pattern with respect to the most primitive boolean
+expressions through the use of infix operators. For instance, the expression
+`car == "red"` reads naturally as "[subject] the car [predicate] is red." This
+pattern can be extended to other boolean expressions to improve consistency.
+
+Object methods that return boolean values should start with `is`, `has`, or
+other sensible verbs. These methods naturally fall into the subject-predicate
+form when accessed using dot notation.
+
+```rust
+list.is_empty()
+response.has_body()
+```
+
+Freestanding variables and functions that return boolean values should start
+with the subject instead. In most cases, starting such names with verbs leads to
+awkward constructions that read like questions instead of propositions.
+
+```rust
+let car_is_running // good
+let is_car_running // bad: reads like a question
+fn cache_has_value() // good
+fn has_cache_value() // bad: makes no grammatical sense
+```
+
+There is one exception to this rule. When the subject of the expression is
+implicit, the name should start with a verb. In the following example, the
+implied subject is the program itself.
+
+```rust
+fn should_credit_account() // good
+fn account_should_be_credited() // bad: unnecessarily verbose
+```
+
 ### Code formatting
 
 **Code should be formatted according to a consistent set of rules.**
