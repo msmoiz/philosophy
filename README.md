@@ -231,6 +231,23 @@ Err("the file should exist") // bad: assumes the "right" outcome
 Err("the file does not exist") // good
 ```
 
+**Error messages should describe the step that failed instead of the process it
+is a part of.**
+
+This results in more terse and direct error messages and reduces duplication.
+When a method returns an error, it is implied that the method failed. Including
+that information in the error message would be redundant.
+
+```rust
+fn send_request(...) -> Result<(), Error> {
+  ...
+  // bad: failure to send request is implied
+  return Err("failed to send request, unable to reach host");
+  // good: direct and not redundant
+  return Err("unable to reach host");
+}
+```
+
 ### Code formatting
 
 **Code should be formatted according to a consistent set of rules.**
