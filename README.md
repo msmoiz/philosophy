@@ -192,6 +192,26 @@ fn use_seconds(value: Seconds) {
 }
 ```
 
+**Invariants that cannot be expressed using static types should be expressed
+with runtime assertions.**
+
+Some invariants cannot be enforced by the compiler. For example, the string
+`^[[:alpha:]_][[:alnum:]_]*` represents a valid regular expression that matches
+identifiers, but the compiler does not check this at build time. Even though the
+developer knows that it is valid, the regex parsing method returns a result type
+that needs to be unwrapped at runtime to access the compiled expression. A
+runtime assertion in this case makes developer expectations clear and eases the
+burden on code that depends on the validity of the regular expression. This
+approach also makes it easier to catch programming errors early; the silent
+violation of an invariant can lead to latent and unexpected behavior, but a
+failed assertion (which often will crash the program) is loud, immediate, and
+demands attention.
+
+```rust
+Regex::new("^[[:alpha:]_][[:alnum:]_]*").expect("hardcoded regex should be valid");
+assert!(is_sorted(vec![1, 2, 3, 4, 5]), "input list must be sorted");
+```
+
 ### Code formatting
 
 **Code should be formatted according to a consistent set of rules.**
