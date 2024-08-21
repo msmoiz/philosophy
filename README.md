@@ -212,6 +212,25 @@ Regex::new("^[[:alpha:]_][[:alnum:]_]*").expect("hardcoded regex should be valid
 assert!(is_sorted(vec![1, 2, 3, 4, 5]), "input list must be sorted");
 ```
 
+### Error handling
+
+**Error messages should describe what actually happened.**
+
+The alternate approach&mdash;describing what should have happened&mdash;forces
+the reader to do more work to determine what went wrong. For instance, if a file
+read operation returns an error that says "the file should exist" (what should
+have happened), the reader has to take an additional logical step to conclude
+that the file does not exist (what actually happened). In addition, the
+alternate approach is less flexible when composed with its surrounding context.
+It may be reasonable (and even expected) in a given application for the file to
+not exist, in which case saying that the file does not exist remains accurate
+but saying that it should exist becomes inaccurate.
+
+```rust
+Err("the file should exist") // bad: assumes the "right" outcome
+Err("the file does not exist") // good
+```
+
 ### Code formatting
 
 **Code should be formatted according to a consistent set of rules.**
