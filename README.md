@@ -248,6 +248,23 @@ fn send_request(...) -> Result<(), Error> {
 }
 ```
 
+**Methods that can fail should document this possibility.**
+
+In a language like Rust that makes error handling ergonomic, this can be
+expressed by using a `Result` as the return type in a function signature. In a
+language like Java that makes error handling more cumbersome (and checked
+exceptions unappealing) it may be sufficient to simply make note of the failure
+conditions in a doc comment. This signals to a caller that they should expect
+failures from a given method and gives them an opportunity to respond to it.
+Even if a caller simply propagates the error, they are at least doing so
+intentionally. This also allows developers to be more confident when using
+functions that are marked as infallible as they do not need to wrap calls to
+those methods with error handling logic.
+
+```rust
+fn fallible_function() -> anyhow::Result<()>
+```
+
 ### Code formatting
 
 **Code should be formatted according to a consistent set of rules.**
