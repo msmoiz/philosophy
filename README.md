@@ -1,6 +1,6 @@
 # Philosophy
 
-> *phi·los·o·phy* (noun)
+> _phi·los·o·phy_ (noun)
 >
 > 1. a theory or attitude held by a person or organization that acts as a
 >    guiding principle for behavior
@@ -93,7 +93,7 @@ struct Point {
 fn transform(point: Point) {
   // x must be an &i32 because of the explicit
   // annotations on point and Point::x
-  let x = &point.x; 
+  let x = &point.x;
 }
 ```
 
@@ -103,7 +103,7 @@ there is a fair chance that a better name exists.
 
 ```rust
 let open = store_is_open(); // good
-let open = check_store_status(); // bad 
+let open = check_store_status(); // bad
 ```
 
 There are situations where explicit type annotations are appropriate, such as
@@ -159,6 +159,37 @@ implied subject is the program itself.
 ```rust
 fn should_credit_account() // good
 fn account_should_be_credited() // bad: unnecessarily verbose
+```
+
+### Invariants
+
+**Invariants that can be expressed using static types should be.**
+
+This makes it possible to avoid an entire class of bugs at build time. For
+example, consider a value that represents the seconds component of a timestamp.
+The value must be a number between 0 and 59 (this is the invariant). This value
+can be stored in an unsigned integer type such as a `u8`, which can hold numbers
+between 0 and 255. However, because the range of a `u8` is greater than the
+permissible range for this value, every method that consumes this `u8` needs to
+confirm that the value is within the expected range before using it. We can
+prevent invalid values from reaching these methods by wrapping the primitive
+type in a new type (`Seconds`) that validates the value on construction and
+passing that type to methods instead. This puts the validation up front and
+allows consumers to simply depend on this invariant when they have a `Seconds`
+object.
+
+```rust
+struct Seconds(u8);
+impl Seconds {
+  fn new(value: u8) -> Self {
+    assert!(value < 60);
+    Self(value)
+  }
+}
+
+fn use_seconds(value: Seconds) {
+  // this code can assume that the value is between 0 and 59
+}
 ```
 
 ### Code formatting
@@ -282,14 +313,14 @@ required to find relevant code.
 
 ### Ignored files
 
-**The *.gitignore* file for a repository should only be used to exclude files
+**The _.gitignore_ file for a repository should only be used to exclude files
 and directories specific to that repository.**
 
-This includes local dependency caches like *node_modules* and build artifacts
-like *target*, *build*, and *cdk.out*. Files that should be ignored for all
-repositories, such as those created by particular editors (*.vscode*, *.idea*),
-operating systems (*.DS_Store*), or command line utilities (*mutagen.yml*),
-should be excluded through a global *.gitignore* file instead. This spares the
+This includes local dependency caches like _node_modules_ and build artifacts
+like _target_, _build_, and _cdk.out_. Files that should be ignored for all
+repositories, such as those created by particular editors (_.vscode_, _.idea_),
+operating systems (_.DS_Store_), or command line utilities (_mutagen.yml_),
+should be excluded through a global _.gitignore_ file instead. This spares the
 developer the effort of repeating common ignore clauses for each new repository.
 It also makes for more focused repository-specific ignore files, which otherwise
 might be polluted with ignore clauses tied to specific developer setups.
@@ -472,7 +503,7 @@ necessarily the same as the tooling it is intended to work with. Pinning a
 package to a specific set of tools and versions reduces the time needed to be
 productive in that package and sidesteps headaches caused by environmental
 inconsistencies. For instance, the significance of some files like
-*package.json* or *pom.xml* may be obvious to developers with experience using
+_package.json_ or _pom.xml_ may be obvious to developers with experience using
 the related tools (npm and Maven, respectively) but not for those that are
 unfamiliar. Similarly, it makes it easier to identify packages that are
 outdated. For example, a package that advertises itself as using Python 3.6 will
@@ -546,11 +577,11 @@ confidence it provides that something that works in the lesser environment will
 work in production. To this end, pre-production tests should run against
 production dependencies, for a few reasons:
 
-* Integration behavior often gets out of sync with production behavior. This
+- Integration behavior often gets out of sync with production behavior. This
   reduces environment fidelity.
-* Integration endpoints are often less reliable than their production
+- Integration endpoints are often less reliable than their production
   counterparts and may not have the same support guarantees.
-* Many services do not offer integration endpoints at all. This forces the
+- Many services do not offer integration endpoints at all. This forces the
   developer to use production endpoints for some dependencies and integrations
   for others, which can make it harder to understand the dependency graph for a
   pre-production environment.
@@ -573,21 +604,21 @@ transport protocol.**
 HTTP is advertised as an application layer protocol, but in practice it is a
 poor tool for modeling application logic, for a number of reasons:
 
-* *The protocol blurs the line between message transmission and substance.* It
+- _The protocol blurs the line between message transmission and substance._ It
   offers methods (e.g., `CONNECT`, `OPTIONS`, and `TRACE`), status codes (e.g.,
   `3xx`, `502`, `504`), and headers (e.g., `Connection`, `Forwarded`,
   `Access-Control-Allow-Origin`) that address routing, redirection, proxy
   servers, cross-origin access, and other matters that have no bearing on
   application logic.
-* *The protocol was not designed for service-to-service communication.* It was
+- _The protocol was not designed for service-to-service communication._ It was
   initially designed to make it easy to request, serve, and render arbitrary
   content in the context of a browser, and that legacy continues to play a
   significant role in the features it provides. For instance, the `Content-Type:
-  application/json` header helps a browser render a response from an arbitrary
+application/json` header helps a browser render a response from an arbitrary
   server in a reasonable manner. The same header means little for most backend
   applications, which support exactly one serialization format (typically JSON),
   and their clients, which are written to work with a single format.
-* *The protocol is ambiguous with respect to application logic.* Over the years,
+- _The protocol is ambiguous with respect to application logic._ Over the years,
   different parties have layered different (often conflicting) semantics on the
   behavior and interpretation of urls, methods, status codes, headers, query
   strings, and bodies, such that the current state of affairs is one of complete
@@ -599,7 +630,7 @@ poor tool for modeling application logic, for a number of reasons:
   frequently devolves into theories about "what Fielding meant" and the promise
   of HATEOS (which has yet to materialize outside the browser). There is limited
   value in adhering to a standard that no one agrees on.
-* *The protocol lacks the granularity needed for application logic.* For
+- _The protocol lacks the granularity needed for application logic._ For
   instance, it forces the developer to map every write operation onto one of
   three generic verbs&mdash;`POST`, `PUT`, or `PATCH`; this a step backwards in
   terms of expressive power when compared to the naming flexibility afforded to
