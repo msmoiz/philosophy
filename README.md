@@ -165,18 +165,18 @@ fn account_should_be_credited() // bad: unnecessarily verbose
 
 **Invariants that can be expressed using static types should be.**
 
-This makes it possible to avoid an entire class of bugs at build time. For
-example, consider a value that represents the seconds component of a timestamp.
-The value must be a number between 0 and 59 (this is the invariant). This value
-can be stored in an unsigned integer type such as a `u8`, which can hold numbers
-between 0 and 255. However, because the range of a `u8` is greater than the
-permissible range for this value, every method that consumes this `u8` needs to
-confirm that the value is within the expected range before using it. We can
-prevent invalid values from reaching these methods by wrapping the primitive
-type in a new type (`Seconds`) that validates the value on construction and
-passing that type to methods instead. This puts the validation up front and
-allows consumers to simply depend on this invariant when they have a `Seconds`
-object.
+This makes it possible to avoid an entire class of bugs resulting from
+mismatched types at build time. For example, consider a value that represents
+the seconds component of a timestamp. The value must be a number between 0 and
+59 (this is the invariant). This value can be stored in an unsigned integer type
+such as a `u8`, which can hold numbers between 0 and 255. However, because the
+range of a `u8` is greater than the permissible range for this value, every
+method that consumes this `u8` needs to confirm that the value is within the
+expected range before using it. We can prevent invalid values from reaching
+these methods by wrapping the primitive type in a new type (`Seconds`) that
+validates the value on construction and passing that type to methods instead.
+This puts the validation up front and allows consumers to simply depend on this
+invariant when they have a `Seconds` object.
 
 ```rust
 struct Seconds(u8);
