@@ -525,8 +525,8 @@ Some dependencies will rarely make sense to bundle, such as operating system
 libraries, as those can be expected to be present in the host environment and
 would in any event be prohibitively expensive to include in a distribution. For
 others, the calculus will change from one application to the next. For instance,
-Python source code will typically take up 5~10 MB, but an interpreter will take
-up 200~300 MB, and it may or may not be worth it in a given situation to include
+Python source code will typically take up 5-10 MB, but an interpreter will take
+up 200-300 MB, and it may or may not be worth it in a given situation to include
 the interpreter depending on what assumptions can be made about the host
 environment.
 
