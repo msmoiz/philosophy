@@ -507,6 +507,29 @@ and provide meaningful responses to the feedback. In addition, when a code
 change lingers, a developer may be forced to pick up other tasks in the interim,
 which results in more context-switching and hinders productivity.
 
+## Deployment
+
+**Code should be distributed with as many of its dependencies as is practical.**
+
+Applications often depend on other libraries and tools to perform their tasks,
+and, as a general matter, these dependencies can come from one of two places:
+the distribution or the host environment. Including dependencies with the
+distribution increases the distribution size, but results in more predictable
+behavior, while sourcing dependencies from the environment typically has the
+inverse effect. In a world where disk space is cheap, the benefits of shared
+dependencies do not outweigh their costs.
+
+In practice, this means using statically linked libraries instead of dynamically
+linked libraries and bundling binaries and other tools, where it makes sense.
+Some dependencies will rarely make sense to bundle, such as operating system
+libraries, as those can be expected to be present in the host environment and
+would in any event be prohibitively expensive to include in a distribution. For
+others, the calculus will change from one application to the next. For instance,
+Python source code will typically take up 5~10 MB, but an interpreter will take
+up 200~300 MB, and it may or may not be worth it in a given situation to include
+the interpreter depending on what assumptions can be made about the host
+environment.
+
 ## Continuous deployment
 
 **Code changes should be deployed within one business day of approval.**
