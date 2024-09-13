@@ -679,6 +679,21 @@ aws dynamodb get-item --return-consumed-capacity [options...]
 This pattern is widespread in modern command line tooling (e.g., `docker run`,
 `git commit`, `cargo install`).
 
+**Substantive output should be written to standard output.**
+
+This is content that represents the result of the command such as the DNS
+records located using `dig` or the matches found in a stream of text by `grep`.
+This makes it easy to route the output through pipes or process it in other ways
+without having to differentiate it from logs.
+
+**Logs should be written to standard error instead of to file.**
+
+This allows users to view log messages directly in the terminal (compare this to
+the tedium associated with inspecting a FindBugs report). In the general case,
+command line logs do not need to be persisted beyond the current session.
+Instead of littering the working directory with log files, this approach allows
+users to opt in to persistence by redirecting logs to a file as needed.
+
 ## Pre-production environments
 
 **Pre-production environments should depend on production services.**
