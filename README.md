@@ -212,6 +212,23 @@ Regex::new("^[[:alpha:]_][[:alnum:]_]*").expect("hardcoded regex should be valid
 assert!(is_sorted(vec![1, 2, 3, 4, 5]), "input list must be sorted");
 ```
 
+## Logging
+
+**Logs should be emitted at the appropriate level.**
+
+The following semantics are ascribed to each log level, in order of verbosity:
+
+- _error_: Something went wrong, and the program cannot continue.
+- _warn_: Something went wrong, and the program can continue.
+- _info_: Something went right, and it is relevant to the end user.
+- _debug_: Something went right, and it is not relevant to the end user.
+
+There is no definition for _trace_ as it is redundant with debug. It may still
+be used during development but should be compiled out of release builds. The
+distinction between _info_ and _debug_ turns on the meaning of "end user" and
+"relevance" in a given context; when in doubt, it is better to have more
+information than less, so bias towards _info_.
+
 ### Error handling
 
 **Error messages should describe what actually happened.**
