@@ -584,6 +584,18 @@ environment allows developers to test such changes in a safe manner and also
 reduces iteration time as variations can be deployed without waiting on code
 review or pipeline promotions.
 
+**The pipeline platform and code should be versioned to the extent possible.**
+
+This includes the operating system, binaries, libraries, and other artifacts
+that are amenable to versioning. It also includes things like Docker images and
+GitHub actions which are often (but should not be) treated as exempt from
+standard version bumping procedure. This increases the cost of keeping
+dependencies up to date as there is manual effort required, but this aligns more
+closely with the practice of introducing changes to a system deliberately and
+knowingly. The tradeoff is a higher risk of unaddressed security
+vulnerabilities, which can be mitigated using tools like Dependabot that
+identify and surface such issues.
+
 ## Package documentation
 
 **Each package should contain a README in its root directory.**
